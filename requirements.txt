@@ -1,0 +1,5 @@
+redis
+wtforms
+flask
+uwsgi
+

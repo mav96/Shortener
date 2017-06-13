@@ -1,0 +1,13 @@
+version: '2'
+services:
+    redis:
+        image: redis
+    webapp:
+        build: .
+        command: uwsgi --http :80 --wsgi-file app.py  --callable app
+        ports:
+            - "80:80"
+        volumes:
+            - .:/code
+        depends_on:
+            - redis
