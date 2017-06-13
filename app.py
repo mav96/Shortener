@@ -1,21 +1,7 @@
 from flask import Flask, render_template, flash, request, redirect
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
-import hashlib
-import string
 import redis
-
-
-def hash_url(url, precision=10):
-    alphabet = string.digits + string.ascii_letters
-    base = len(alphabet)
-
-    def num62(num):
-        if num // base > 0:
-            return num62(num // base) + alphabet[num % base]
-        else:
-            return alphabet[num]
-
-    return num62(int(hashlib.md5(url.encode("UTF-8")).hexdigest(), 16) % (10 ** precision))
+from hash import hash_url
 
 
 DEBUG = True

@@ -13,5 +13,7 @@ def hash_url(url, precision=10):
 
     return num62(int(hashlib.md5(url.encode("UTF-8")).hexdigest(), 16) % (10 ** precision))
 
-u = 'www.google.com'
-print(hash_url(u))
+
+if __name__ == "__main__":
+    u = 'www.google.com'
+    print(hash_url(u))
