@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, request, redirect
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from wtforms import Form, validators
+from wtforms.fields.html5 import URLField
 import redis
 from hash import hash_url
 
@@ -13,14 +14,13 @@ redis_db = redis.StrictRedis(host="redis", port=6379, db=0)
 
 
 class ReusableForm(Form):
-    url = TextField('Page:', validators=[validators.required()])
+    url = URLField('Page:', validators=[validators.required()])
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
     page = ''
     form = ReusableForm(request.form)
-    print(form.errors)
 
     if request.method == 'POST':
         page = request.form['url']
@@ -37,9 +37,9 @@ def home_page():
 @app.route('/<url>')
 def redirect_page(url):
     if redis_db.get(url):
-        return '<meta http-equiv="refresh" content="0; url=%s" />' % redis_db.get(url).decode("UTF-8")
-        #return '<html><body><a href="%s">moved here</a></body></html>' % redis_db.get(url).decode("UTF-8")
+        return redirect(redis_db.get(url).decode("UTF-8"), code=302)
     else:
+        flash('A link not found.')
         return redirect("/", code=302)
 
 

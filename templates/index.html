@@ -5,14 +5,9 @@
     </head>
     <body>
         <form action="" method="post">
-            {{ form.csrf }}
- 
             <div class="input text">
                 {{ form.url.label }} {{ form.url }}
-            </div>
- 
-            <div class="input submit">
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Generate" />
             </div>
         </form>
         {% with messages = get_flashed_messages(with_categories=true) %}
