@@ -1,6 +1,7 @@
 import hashlib
 import string
 
+
 def hash_url(url, precision=10):
     alphabet = string.digits + string.ascii_letters
     base = len(alphabet)
@@ -11,7 +12,8 @@ def hash_url(url, precision=10):
         else:
             return alphabet[num]
 
-    return num62(int(hashlib.md5(url.encode("UTF-8")).hexdigest(), 16) % (10 ** precision))
+    md5 = hashlib.md5(url.encode("UTF-8")).hexdigest()
+    return num62(int(md5, 16) % 10**precision)
 
 
 if __name__ == "__main__":
